@@ -2,59 +2,51 @@
 import {useEffect, useState} from "react";
 type TimerMode = "focus"| "short break" | "long break";
 
-// timers for different modes
- const focusTime = 25*60; // 25 minutes in seconds
- const shortBreakTime = 5*60;//5 minutes in seconds
- const longBreakTime= 15*60;//15 minutes in seconds 
-
-
 const useTimer = () => {
+  const [duration, setDuration] = useState({
+      focus : 25*60,
+      shortBreak : 5*60,
+      longBreak: 15*60
+  })
   const [mode, setmode] = useState<TimerMode>("focus")
-  const [timeLeft, setTimeLeft] = useState(focusTime);
+  const [timeLeft, setTimeLeft] = useState(duration.focus);
   const [isActive, setIsActive] = useState(false);
 
-
   // function to switch modes
-  const startTimer =()=>{
-    setIsActive(true);
-  }
+  const startTimer =()=>{setIsActive(true);}
+  const pauseTimer =()=>{setIsActive(false);}
 
-  const pauseTimer =()=>{
-    setIsActive(false);
-  }
-
-  const resetTimer =()=>{
-    setIsActive(false);
+  const resetTimer =()=>{setIsActive(false);
     switch (mode){
       case "focus":
-        setTimeLeft(focusTime);
+        setTimeLeft(duration.focus);
         break;
         case "short break":
-          setTimeLeft(shortBreakTime);
+          setTimeLeft(duration.shortBreak);
           break;
           case "long break":
-            setTimeLeft(longBreakTime);
+            setTimeLeft(duration.longBreak);
             break;
     }
   }
 
   // swap between pomodoro, short break and long break!
-    const setPomodoro =()=>{
+    const setFocus =()=>{
       setmode("focus");
       setIsActive(false);
-      setTimeLeft(focusTime);
+      setTimeLeft(duration.focus);
     }
     
-    const setShortBreak = ()=>{
+    const setShortBreak =()=>{
       setmode("short break");
       setIsActive(false);
-      setTimeLeft(shortBreakTime);
+      setTimeLeft(duration.shortBreak);
     }
 
-    const setLongBreak = ()=>{
+    const setLongBreak =()=>{
       setmode("long break");
       setIsActive(false);
-      setTimeLeft(longBreakTime);
+      setTimeLeft(duration.longBreak);
     }
 
 useEffect(() => {
@@ -81,6 +73,27 @@ useEffect(() => {
     };
   }, [isActive]);
 
+  //custom timer logic
+  const updateDurations = (focus:number, shortBreak:number, longBreak:number)=>{
+    setDuration({
+      focus: focus*60,
+      shortBreak: shortBreak*60,
+      longBreak: longBreak*60
+    });
+  
+  //final add of custom values
+  switch(mode){
+    case "focus":
+      setTimeLeft(focus*60);
+      break;
+       case "short break":
+      setTimeLeft(shortBreak*60);
+      break;
+       case "long break":
+      setTimeLeft(longBreak*60);
+      break;
+  }
+  }
   return (
 {
  mode,
@@ -88,10 +101,10 @@ useEffect(() => {
  startTimer,
  pauseTimer,
  resetTimer,
- setPomodoro,
+ setFocus,
  setShortBreak,
  setLongBreak,
- setmode,
+ updateDurations,
 })
 }
 
