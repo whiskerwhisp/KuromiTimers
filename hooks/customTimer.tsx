@@ -45,6 +45,7 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ isOpen, onClose, onSave }) =>
               min={1}
               value={shortBreak}
               onChange={(e) => setShortBreak(parseInt(e.target.value))}
+              
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"/>
           </div>
 
