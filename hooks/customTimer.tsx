@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 
 interface CustomTimerProps {
   isOpen: boolean;
@@ -7,12 +8,20 @@ interface CustomTimerProps {
 }
 
 const CustomTimer: React.FC<CustomTimerProps> = ({ isOpen, onClose, onSave }) => {
-  const [focus, setfocus] = useState<number>(25);
-  const [shortBreak, setShortBreak] = useState<number>(5);
-  const [longBreak, setLongBreak] = useState<number>(15);
+  const [focus, setfocus] = useState<string>("25");
+  const [shortBreak, setShortBreak] = useState<string>("5");
+  const [longBreak, setLongBreak] = useState<string>("15");
 
   if (!isOpen) return null;
 
+ const handleSave = ()=>{
+ onSave({
+  focus:Number(focus)||0,
+   shortBreak:Number(shortBreak)||0,
+    longBreak:Number(longBreak)||0,
+ });
+
+ }
   return (
     <div className="fixed inset-0 text-black flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
@@ -25,37 +34,33 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ isOpen, onClose, onSave }) =>
           Enter Custom Timer
         </h2>
 
-        {/* Inputs */}
+        {/* enter values */}
         <div className="space-y-4">
           <div>
             <label className="block font-semibold mb-1">Focus</label>
             <input
               type="number"
-              min={1}
+              min={0}
               value={focus}
-              onChange={(e) => setfocus(parseInt(e.target.value))}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
-            />
+              onChange={(e) => setfocus(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"/>
           </div>
-
           <div>
             <label className="block font-semibold mb-1">Short Break</label>
             <input
               type="number"
-              min={1}
+              min={0}
               value={shortBreak}
-              onChange={(e) => setShortBreak(parseInt(e.target.value))}
-              
+              onChange={(e) => setShortBreak(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"/>
           </div>
-
           <div>
             <label className="block font-semibold mb-1">Long Break</label>
             <input
               type="number"
-              min={1}
+              min={0}
               value={longBreak}
-              onChange={(e) => setLongBreak(parseInt(e.target.value))}
+              onChange={(e) => setLongBreak(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400" />
           </div>
         </div>
@@ -63,7 +68,7 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ isOpen, onClose, onSave }) =>
         {/* Save Button */}
         <div className="flex justify-end mt-6">
           <button
-            onClick={() => onSave({ focus, shortBreak, longBreak })}
+            onClick={handleSave}
             className="bg-red-500 text-white font-bold px-6 py-2 rounded hover:bg-red-600 transition">
             Save
           </button>
@@ -74,3 +79,4 @@ const CustomTimer: React.FC<CustomTimerProps> = ({ isOpen, onClose, onSave }) =>
 };
 
 export default CustomTimer;
+
