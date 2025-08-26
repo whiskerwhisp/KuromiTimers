@@ -1,9 +1,9 @@
 import React from 'react'
-import Timer from "@/components/Timer"
+import Pomodoro from "@/components/pomodoro"
 
 const page = () => {
   return (
- <Timer/>
+ <Pomodoro/>
   )
 }
 
